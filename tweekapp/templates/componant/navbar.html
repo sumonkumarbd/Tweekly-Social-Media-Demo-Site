@@ -1,0 +1,103 @@
+<nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo / Brand -->
+        <div class="flex-shrink-0 text-xl font-bold text-gray-600">
+          <a href="/">Tweekly</a>
+        </div>
+  
+        <!-- Navigation Links (Desktop) -->
+        <div class="hidden md:flex space-x-6">
+          {% comment %} <a
+            href="http://127.0.0.1:8000/"
+            class="block text-gray-600 hover:text-indigo-600"
+            >Dashboard</a
+          >
+          <a
+            href="http://127.0.0.1:8000/profile/"
+            class="block text-gray-600 hover:text-indigo-600"
+            >Profile</a
+          >
+          <a
+            href="http://127.0.0.1:8000/about/"
+            class="block text-gray-600 hover:text-indigo-600"
+            >About</a
+          > {% endcomment %}
+        </div>
+  
+        <!-- Right Side (Profile or Actions) -->
+        <div class="hidden md:flex items-center space-x-4">
+          <div class="flex justify-end">
+            <a href="{% url "tweek_create" %}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition duration-200">
+                Post Tweek
+            </a>
+        </div>
+        <div class="flex gap-4">
+         
+          {% if user.is_authenticated %}
+          <img
+          src="{{user.user_photo.url}}" alt="Profile Picture"
+          class="w-8 h-8 rounded-full mx-2"
+          alt="User Avatar"
+          />
+          <span class="text-teal-500 my-1"><a href="#">{{user.username}}</a></span>
+          <span class="text-red-500 my-1"><a href="{% url "logout" %}">Logout</a></span>
+          {% else %}
+          <span class="text-green-500"><a href="{% url "login" %}">Login</a></span>
+          {% endif %}
+        </div>
+  
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex items-center">
+          <button
+            id="mobile-menu-button"
+            class="text-gray-600 focus:outline-none"
+          >
+            <svg
+              class="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden px-4 pt-2 pb-4 space-y-2">
+      <a
+        href="http://127.0.0.1:8000/"
+        class="block text-gray-600 hover:text-indigo-600"
+        >Dashboard</a
+      >
+      <a
+        href="http://127.0.0.1:8000/profile/"
+        class="block text-gray-600 hover:text-indigo-600"
+        >Profile</a
+      >
+      <a
+        href="http://127.0.0.1:8000/about/"
+        class="block text-gray-600 hover:text-indigo-600"
+        >About</a
+      >
+    </div>
+  </nav>
+  
+  <script>
+    const btn = document.getElementById("mobile-menu-button");
+    const menu = document.getElementById("mobile-menu");
+  
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+  

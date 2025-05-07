@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tweek App{% endblock title %}
+
+{% block bodyContent %}
+    <div class="bg-gray-100 min-h-screen py-6 px-4">
+        <div class="max-w-2xl mx-auto space-y-6">
+            {% for tweek in tweeks %}
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+
+                    <!-- User Info Section (Profile Picture and Name) -->
+                    <div class="flex items-center gap-4 p-4">
+                        <!-- Profile Picture -->
+                        <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300">
+                            {% if tweek.user.user_photo %}
+                                <img src="{{ tweek.user.user_photo.url }}" alt="Profile Photo" class="w-full h-full object-cover" />
+                            {% else %}
+                                <img src="{% static 'icons/delete.png' %}" alt="Default Photo" class="w-full h-full object-cover" />
+                            {% endif %}
+                        </div>
+
+                        <!-- User Info (Name and Time) -->
+                        <div class="flex flex-col justify-start">
+                            <h5 class="font-semibold text-gray-800">{{ tweek.user.full_name }}</h5>
+                            <p class="text-xs text-gray-500">{{ tweek.updated_at|date:"M d, Y H:i" }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Post Content Section -->
+                    <div class="px-4 py-2">
+                        <!-- Tweek Image (if exists) -->
+                        {% if tweek.photo %}
+                            <img src="{{ tweek.photo.url }}" alt="Tweek Image" class="w-full max-h-72 object-cover rounded-md mb-3" />
+                        {% endif %}
+                        
+                        <!-- Post Text -->
+                        <p class="text-gray-700 text-sm leading-relaxed">
+                            {{ tweek.text }}
+                        </p>
+                    </div>
+
+                    <!-- Post Interaction Buttons (Like, Comment, Share) -->
+                    <div class="flex justify-between items-center px-4 pb-4">
+                        <div class="flex items-center gap-2">
+                            <!-- Like Button (You can implement a Like functionality if needed) -->
+                            <button class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
+                                <img src="{% static 'icons/like.png' %}" width="20" height="20" alt="Like" />
+                                <span class="text-sm">Like</span>
+                            </button>
+                            <!-- Comment Button (Link to Comment Section) -->
+                            <button class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
+                                <img src="{% static 'icons/comment.png' %}" width="20" height="20" alt="Comment" />
+                                <span class="text-sm">Comment</span>
+                            </button>
+                            <!-- Share Button -->
+                            <button class="flex items-center gap-1 text-gray-500 hover:text-blue-600">
+                                <img src="{% static 'icons/share.png' %}" width="20" height="20" alt="Share" />
+                                <span class="text-sm">Share</span>
+                            </button>
+                        </div>
+
+                        <!-- Edit and Delete (Only for the Author of the Post) -->
+                        {% if tweek.user == user %}
+                        <div class="flex items-center gap-2">
+                            <a href="{% url 'tweek_edit' tweek.id %}" class="text-gray-500 hover:text-blue-600" title="Edit">
+                                Edit
+                            </a>
+                            <a href="{% url 'tweek_delete' tweek.id %}" class="text-gray-500 hover:text-red-600" title="Delete">
+                                Delete
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock bodyContent %}
